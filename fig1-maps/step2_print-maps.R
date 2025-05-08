@@ -304,8 +304,8 @@ ken_base <- ggplot(data = ken.region, mapping = aes(x = long, y = lat, group = g
   geom_polygon(color = "black", fill = NA)
 
 # aud
-png(filename='map/aud-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/aud-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p1 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = aud.props, color=region)) +
   geom_text(data = aud.rname[c(1,4,7,14,15),], aes(long, lat, label = aud.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = aud.rname[13,], aes(long-.1, 38.6+.2, label = aud.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -323,17 +323,17 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('AUD (%) in Different ADDs (2022)') + 
+  ggtitle('A: AUD (%) in Different ADDs (2022)') + 
   labs(color='map/ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 
 # Behavior_Therapy
-png(filename='map/Behavior_Therapy-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/Behavior_Therapy-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p2 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = Behavior_Therapy.props, color=region)) +
   geom_text(data = Behavior_Therapy.rname[c(1,4,7,10,14,15),], aes(long, lat, label = Behavior_Therapy.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = Behavior_Therapy.rname[13,], aes(long-.1, 38.6+.2, label = Behavior_Therapy.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -350,16 +350,16 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Behavior Therapy (%) in Different ADDs (2022)') + 
+  ggtitle('B: Behavior Therapy (%) in Different ADDs (2022)') + 
   labs(color='map/ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 #Depression/ anxiety plot 
-png(filename='map/depression-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/depression-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p3<- ken_base + 
   geom_polygon(data = ken.d, aes(fill = dep.props, color=region)) +
   geom_text(data = dep.rname[c(1,4,7,10,14,15),], aes(long, lat, label = dep.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = dep.rname[13,], aes(long-.1, 38.6+.2, label = dep.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -376,17 +376,17 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Depression/Anxiety (%) in Different ADDs (2022)') + 
+  ggtitle('C: Depression/Anxiety (%) in Different ADDs (2022)') + 
   labs(color='map/ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 
 #telehealth map 
-png(filename='map/tel-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/tel-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p4 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = Tel.props, color=region)) +
   geom_text(data = Tel.rname[c(1,4,7,10,14,15),], aes(long, lat, label = Tel.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = Tel.rname[13,], aes(long-.1, 38.6+.2, label = Tel.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -403,16 +403,16 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Telehealth (%) in Different ADDs (2022)') + 
+  ggtitle('D: Telehealth (%) in Different ADDs (2022)') + 
   labs(color='ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 # Peer_Support
-png(filename='map/Peer_Support-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/Peer_Support-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p5 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = Peer_Support.props, color=region)) +
   geom_text(data = Peer_Support.rname[c(1,4,7,10,14,15),], aes(long, lat, label = Peer_Support.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = Peer_Support.rname[13,], aes(long-.1, 38.6+.2, label = Peer_Support.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -429,17 +429,17 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Peer Support (%) in Different ADDs (2022)') + 
+  ggtitle('E: Peer Support (%) in Different ADDs (2022)') + 
   labs(color='map/ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 
 #tcm plot 
-png(filename='map/TCM-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/TCM-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p6 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = TCM.props, color=region)) +
   geom_text(data = tcm.rname[c(1,4,7,10,14,15),], aes(long, lat, label = TCM.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = tcm.rname[13,], aes(long-.1, 38.6+.2, label = TCM.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -456,17 +456,17 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('TCM (%) in Different ADDs (2022)') + 
+  ggtitle('F: TCM (%) in Different ADDs (2022)') + 
   labs(color='ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 
 # Cost
-png(filename='map/Cost-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/Cost-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p7 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = Cost.props/1000, color=region)) +
   geom_text(data = Cost.rname[c(1,4,7,10,14,15),], aes(long, lat, label = Cost.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = Cost.rname[13,], aes(long-.1, 38.6+.2, label = Cost.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -483,16 +483,16 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Median Cost in Different ADDs (2022)') + 
+  ggtitle('G: Median Cost in Different ADDs (2022)') + 
   labs(color='ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 # HOSPITAL
-png(filename='map/Hospitalization-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/Hospitalization-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p8 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = HOSPITAL.props, color=region)) +
   geom_text(data = HOSPITAL.rname[c(1,4,7,10,14,15),], aes(long, lat, label = HOSPITAL.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = HOSPITAL.rname[13,], aes(long-.1, 38.6+.2, label = HOSPITAL.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -509,17 +509,17 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Hospitalization (%) in Different ADDs (2022)') + 
+  ggtitle('H: Hospitalization (%) in Different ADDs (2022)') + 
   labs(color='map/ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 
 # ER
-png(filename='map/ER-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/ER-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p9 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = ER_visit.props, color=region)) +
   geom_text(data = ER_visit.rname[c(1,4,7,10,14,15),], aes(long, lat, label = ER_visit.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = ER_visit.rname[13,], aes(long-.1, 38.6+.2, label = ER_visit.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -536,16 +536,16 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('ER visit (%) in Different ADDs (2022)') + 
+  ggtitle('I: ER visit (%) in Different ADDs (2022)') + 
   labs(color='ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 # self_harm
-png(filename='map/SH-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/SH-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p10 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = selfharm.yn.props, color=region)) +
   geom_text(data = selfharm.yn.rname[c(1,4,7,10,14,15),], aes(long, lat, label = selfharm.yn.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = selfharm.yn.rname[13,], aes(long-.1, 38.6+.2, label = selfharm.yn.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -562,16 +562,16 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Self Harm (%) in Different ADDs (2022)') + 
+  ggtitle('J: Self Harm (%) in Different ADDs (2022)') + 
   labs(color='ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 # suicideideation
-png(filename='map/SI-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/SI-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p11 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = suicidalideations.yn.props, color=region)) +
   geom_text(data = suicidalideations.yn.rname[c(1,4,7,10,14,15),], aes(long, lat, label = suicidalideations.yn.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = suicidalideations.yn.rname[13,], aes(long-.1, 38.6+.2, label = suicidalideations.yn.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -588,16 +588,16 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Suicidal Ideation (%) in Different ADDs (2022)') + 
+  ggtitle('K: Suicidal Ideation (%) in Different ADDs (2022)') + 
   labs(color='ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
   )
-dev.off()
+#dev.off()
 
 # suicideattempt
-png(filename='map/SA-map_ADD2022_AUDonly.png', width = 1000 , height = 600)
-ken_base + 
+#tiff(filename='map/SA-map_ADD2022_AUDonly.tiff', width = 5000 , height = 3000, res=300)
+p12 <- ken_base + 
   geom_polygon(data = ken.d, aes(fill = suicideattempt.yn.props, color=region)) +
   geom_text(data = suicideattempt.yn.rname[c(1,4,7,10,14,15),], aes(long, lat, label = suicideattempt.yn.label, group = NULL), size = 8, color = "black", fontface = 2) +
   geom_text(data = suicideattempt.yn.rname[13,], aes(long-.1, 38.6+.2, label = suicideattempt.yn.label, group=NULL), size = 8, color = "black", fontface = 2) + #Northern kentucky
@@ -614,9 +614,15 @@ ken_base +
   theme_classic() + 
   xlab('Longitude (Degrees)') +
   ylab('Latitude (Degrees)') + 
-  ggtitle('Suicide Attempt (%) in Different ADDs (2022)') + 
+  ggtitle('L: Suicide Attempt (%) in Different ADDs (2022)') + 
   labs(color='ADD Region') + guides(color='none') + 
-  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=30),
+  theme(axis.text=element_text(size=30), axis.title=element_text(size=30), title=element_text(size=35),
         legend.text=element_text(size=20, vjust=1),legend.key.size = unit(1.5, 'cm')
         )
+#dev.off()
+
+tiff(filename='map/fig1.tiff', width = 15000 , height = 12000, res=300)
+(p1 + p2 + p3)/(p4 + p5 + p6)/(p7 + p8 + p9)/(p10 + p11 + p12)
 dev.off()
+
+
