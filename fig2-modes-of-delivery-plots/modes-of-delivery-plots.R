@@ -203,7 +203,9 @@ plot.fun_Service_Outcome<-function(data){
   
   ## BT3 on cost
   filtered_data_BT3<-Tab_Cov_Con(data, Covariate="BT3", Con_Outcome="cost") 
-  plot_BT3_Cost <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome/1000, linetype = BT3,color = BT3, group = BT3)) +
+  plot_BT3_Cost <- ggplot(subset(filtered_data_BT3, !(year %in% c(2016:2019) & 
+                                                        filtered_data_BT3$BT3 %in% c('BT.Tel'))),
+                          aes(x = year, y = Outcome/1000, linetype = BT3,color = BT3, group = BT3)) +
     geom_line(size = 1.5) +
     geom_point(size = 2, show.legend = FALSE) +
     labs(
@@ -222,13 +224,16 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   
   
   ## PS3 on cost
   filtered_data_PS3<-Tab_Cov_Con(data, Covariate="PS3", Con_Outcome="cost") 
-  plot_PS3_Cost <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome/1000,linetype = PS3,  color = PS3, group = PS3)) +
+  plot_PS3_Cost <- ggplot(subset(filtered_data_PS3, !(year %in% c(2016:2019) & 
+                                 filtered_data_PS3$PS3 %in% c('PS.Tel'))),
+                          aes(x = year, y = Outcome/1000,linetype = PS3,  color = PS3, group = PS3)) +
     geom_line(size = 1.5) +
     geom_point(size = 2, show.legend = FALSE) +
     labs(
@@ -247,11 +252,14 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   ## TCM3 on cost
   filtered_data_TCM3<-Tab_Cov_Con(data, Covariate="TCM3", Con_Outcome="cost") 
-  plot_TCM3_Cost <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome/1000,linetype = TCM3,  color = TCM3, group = TCM3)) +
+  plot_TCM3_Cost <- ggplot(subset(filtered_data_TCM3, !(year %in% c(2016:2019) & 
+                                  filtered_data_TCM3$TCM3 %in% c('TCM.Tel'))),
+                           aes(x = year, y = Outcome/1000,linetype = TCM3,  color = TCM3, group = TCM3)) +
     geom_line(size = 1.5) +
     geom_point(size = 2, show.legend = FALSE) +
     labs(
@@ -270,12 +278,15 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   
   #names(data)"HOSPITAL"      "ER" 
   filtered_data_BT3<-Tab_Cov_Bin(data, Covariate="BT3", Bin_Outcomes="HOSPITAL") 
-  plot_BT3_Hos <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome,linetype = BT3, color = BT3, group = BT3)) +
+  plot_BT3_Hos <- ggplot(subset(filtered_data_BT3, !(year %in% c(2016:2019) & 
+                                filtered_data_BT3$BT3 %in% c('BT.Tel'))),
+                         aes(x = year, y = Outcome,linetype = BT3, color = BT3, group = BT3)) +
     geom_line(size = 1.5) +
     geom_point(size = 2, show.legend = FALSE) +
     labs(
@@ -294,11 +305,14 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   
   filtered_data_PS3<-Tab_Cov_Bin(data, Covariate="PS3", Bin_Outcomes="HOSPITAL") 
-  plot_PS3_Hos <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS3, color = PS3, group = PS3)) +
+  plot_PS3_Hos <- ggplot(subset(filtered_data_PS3, !(year %in% c(2016:2019) & 
+                                filtered_data_PS3$PS3 %in% c('PS.Tel'))),
+                         aes(x = year, y = Outcome,linetype = PS3, color = PS3, group = PS3)) +
     geom_line(size = 1.5) +  # Thicker lines
     geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
     labs(
@@ -317,11 +331,14 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1,size=18)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   
   filtered_data_TCM3<-Tab_Cov_Bin(data, Covariate="TCM3", Bin_Outcomes="HOSPITAL") 
-  plot_TCM3_Hos <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = TCM3, color = TCM3, group = TCM3)) +
+  plot_TCM3_Hos <- ggplot(subset(filtered_data_TCM3, !(year %in% c(2016:2019) & 
+                                 filtered_data_TCM3$TCM3 %in% c('TCM.Tel'))),
+                          aes(x = year, y = Outcome,linetype = TCM3, color = TCM3, group = TCM3)) +
     geom_line(size = 1.5) +  # Thicker lines
     geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
     labs(
@@ -340,12 +357,15 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   
   #names(data)"HOSPITAL"      "ER" 
   filtered_data_BT3<-Tab_Cov_Bin(data, Covariate="BT3", Bin_Outcomes="ER") 
-  plot_BT3_ER <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
+  plot_BT3_ER <- ggplot(subset(filtered_data_BT3, !(year %in% c(2016:2019) & 
+                               filtered_data_BT3$BT3 %in% c('BT.Tel'))),
+                        aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
     geom_line(size = 1.5) +
     geom_point(size = 2, show.legend = FALSE) +
     labs(
@@ -364,12 +384,15 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   
   
   filtered_data_PS3<-Tab_Cov_Bin(data, Covariate="PS3", Bin_Outcomes="ER") 
-  plot_PS3_ER <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
+  plot_PS3_ER <- ggplot(subset(filtered_data_PS3, !(year %in% c(2016:2019) & 
+                               filtered_data_PS3$PS3 %in% c('PS.Tel'))),
+                        aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
     geom_line(size = 1.5) +  # Thicker lines
     geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
     labs(
@@ -388,11 +411,14 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1,size=18)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   
   filtered_data_TCM3<-Tab_Cov_Bin(data, Covariate="TCM3", Bin_Outcomes="ER") 
-  plot_TCM3_ER <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
+  plot_TCM3_ER <- ggplot(subset(filtered_data_TCM3, !(year %in% c(2016:2019) & 
+                                filtered_data_TCM3$TCM3 %in% c('TCM.Tel'))),
+                         aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
     geom_line(size = 1.5) +  # Thicker lines
     geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
     labs(
@@ -411,7 +437,8 @@ plot.fun_Service_Outcome<-function(data){
       axis.text.x = element_text(angle = 0, hjust = 1)
     )+
     scale_color_manual(values = c("blue", "orange",  "purple")) +
-    scale_linetype_manual(values = c(1,2,3))
+    scale_linetype_manual(values = c(1,2,3)) + 
+    theme(axis.text.x=element_text(hjust=0.5))
   
   return(list(
     plot_BH_Use,   plot_PS_Use,   plot_TCM_Use,  
@@ -440,7 +467,9 @@ plot.list <- plot.fun_Service_Outcome(data)
 #############################################################
 #names(data)"HOSPITAL"      "ER" 
 filtered_data_BT3<-Tab_Cov_Bin(data, Covariate="BT3", Bin_Outcomes="suicidalideations.yn") 
-plot_BT3_SI <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
+plot_BT3_SI <- ggplot(subset(filtered_data_BT3, !(year %in% c(2016:2019) & 
+                             filtered_data_BT3$BT3 %in% c('BT.Tel'))),
+                      aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
   geom_line(size = 1.5) +
   geom_point(size = 2, show.legend = FALSE) +
   labs(
@@ -459,12 +488,15 @@ plot_BT3_SI <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome, linetype = B
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 
 
 filtered_data_PS3<-Tab_Cov_Bin(data, Covariate="PS3", Bin_Outcomes="suicidalideations.yn") 
-plot_PS3_SI <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
+plot_PS3_SI <- ggplot(subset(filtered_data_PS3, !(year %in% c(2016:2019) & 
+                             filtered_data_PS3$PS3 %in% c('PS.Tel'))),
+                      aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
   geom_line(size = 1.5) +  # Thicker lines
   geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
   labs(
@@ -483,11 +515,14 @@ plot_PS3_SI <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 
 filtered_data_TCM3<-Tab_Cov_Bin(data, Covariate="TCM3", Bin_Outcomes="suicidalideations.yn") 
-plot_TCM3_SI <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
+plot_TCM3_SI <- ggplot(subset(filtered_data_TCM3, !(year %in% c(2016:2019) & 
+                              filtered_data_TCM3$TCM3 %in% c('TCM.Tel'))),
+                       aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
   geom_line(size = 1.5) +  # Thicker lines
   geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
   labs(
@@ -506,10 +541,13 @@ plot_TCM3_SI <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = 
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 filtered_data_BT3<-Tab_Cov_Bin(data, Covariate="BT3", Bin_Outcomes="selfharm.yn") 
-plot_BT3_SH <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
+plot_BT3_SH <- ggplot(subset(filtered_data_BT3, !(year %in% c(2016:2019) & 
+                             filtered_data_BT3$BT3 %in% c('BT.Tel'))),
+                      aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
   geom_line(size = 1.5) +
   geom_point(size = 2, show.legend = FALSE) +
   labs(
@@ -528,12 +566,15 @@ plot_BT3_SH <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome, linetype = B
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 
 
 filtered_data_PS3<-Tab_Cov_Bin(data, Covariate="PS3", Bin_Outcomes="selfharm.yn") 
-plot_PS3_SH <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
+plot_PS3_SH <- ggplot(subset(filtered_data_PS3, !(year %in% c(2016:2019) & 
+                             filtered_data_PS3$PS3 %in% c('PS.Tel'))),
+                      aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
   geom_line(size = 1.5) +  # Thicker lines
   geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
   labs(
@@ -552,11 +593,14 @@ plot_PS3_SH <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 
 filtered_data_TCM3<-Tab_Cov_Bin(data, Covariate="TCM3", Bin_Outcomes="selfharm.yn") 
-plot_TCM3_SH <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
+plot_TCM3_SH <- ggplot(subset(filtered_data_TCM3, !(year %in% c(2016:2019) & 
+                              filtered_data_TCM3$TCM3 %in% c('TCM.Tel'))),
+                       aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
   geom_line(size = 1.5) +  # Thicker lines
   geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
   labs(
@@ -575,10 +619,13 @@ plot_TCM3_SH <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = 
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 filtered_data_BT3<-Tab_Cov_Bin(data, Covariate="BT3", Bin_Outcomes="suicideattempt.yn") 
-plot_BT3_SA <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
+plot_BT3_SA <- ggplot(subset(filtered_data_BT3, !(year %in% c(2016:2019) & 
+                             filtered_data_BT3$BT3 %in% c('BT.Tel'))),
+                      aes(x = year, y = Outcome, linetype = BT3,color = BT3, group = BT3)) +
   geom_line(size = 1.5) +
   geom_point(size = 2, show.legend = FALSE) +
   labs(
@@ -597,12 +644,15 @@ plot_BT3_SA <- ggplot(filtered_data_BT3, aes(x = year, y = Outcome, linetype = B
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 
 
 filtered_data_PS3<-Tab_Cov_Bin(data, Covariate="PS3", Bin_Outcomes="suicideattempt.yn") 
-plot_PS3_SA <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
+plot_PS3_SA <- ggplot(subset(filtered_data_PS3, !(year %in% c(2016:2019) & 
+                             filtered_data_PS3$PS3 %in% c('PS.Tel'))), 
+                      aes(x = year, y = Outcome,linetype = PS3,  color = PS3, group = PS3)) +
   geom_line(size = 1.5) +  # Thicker lines
   geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
   labs(
@@ -621,11 +671,14 @@ plot_PS3_SA <- ggplot(filtered_data_PS3, aes(x = year, y = Outcome,linetype = PS
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 
 filtered_data_TCM3<-Tab_Cov_Bin(data, Covariate="TCM3", Bin_Outcomes="suicideattempt.yn") 
-plot_TCM3_SA <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
+plot_TCM3_SA <- ggplot(subset(filtered_data_TCM3, !(year %in% c(2016:2019) & 
+                                                      filtered_data_TCM3$TCM3 %in% c('TCM.Tel'))),
+                       aes(x = year, y = Outcome,linetype = TCM3,  color = TCM3, group = TCM3)) +
   geom_line(size = 1.5) +  # Thicker lines
   geom_point(size = 2, show.legend = FALSE) +  # Add points for visibility
   labs(
@@ -644,15 +697,16 @@ plot_TCM3_SA <- ggplot(filtered_data_TCM3, aes(x = year, y = Outcome,linetype = 
     axis.text.x = element_text(angle = 0, hjust = 1)
   )+
   scale_color_manual(values = c("blue", "orange",  "purple")) +
-  scale_linetype_manual(values = c(1,2,3))
+  scale_linetype_manual(values = c(1,2,3)) + 
+  theme(axis.text.x=element_text(hjust=0.5))
 
 #png(file='mental-outcome-plot.png',width=1300, height=675)
-#grid.arrange(
-#  plot_BT3_SI, plot_PS3_SI, plot_TCM3_SI,
-#  plot_BT3_SH, plot_PS3_SH, plot_TCM3_SH,
-#  plot_BT3_SA, plot_PS3_SA, plot_TCM3_SA,
-#  ncol = 3  
-#)
+grid.arrange(
+  plot_BT3_SI, plot_PS3_SI, plot_TCM3_SI,
+  plot_BT3_SH, plot_PS3_SH, plot_TCM3_SH,
+  plot_BT3_SA, plot_PS3_SA, plot_TCM3_SA,
+  ncol = 3  
+)
 #dev.off()
 
 

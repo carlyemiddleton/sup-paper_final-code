@@ -30,7 +30,7 @@ data22$year<-2022
 data<-rbind(data16, data17, data18, data19, data20, data21, data22)
 ### Function to add additional variables
 Expand<-function(data)
-{ ### Intervention Varaibles
+{ ### Intervention Variables
   data$PS<-ifelse(data$Psclaims>0, 1, 0)
   data$PS.tel<-ifelse(data$PSclaimsbyTel>0, 1, 0)
   data$BT<-ifelse(data$BTclaims>0, 1, 0)
@@ -88,12 +88,18 @@ data$yearm2020 <- data$year - 2020
 ##########################################
 ## :Logistic regression models for mental health variables:  AUD only
 ##########################################
+library(lme4)
+data$mco3 <- ifelse(data$mco != 'UNKWN' & data$mco != 'V4BZZ', 'NAMED', 
+                    data$mco) 
 
-#self harm
+##Behavior Therapy
+#######
+
+#selfharm.yn 
 (start.time <- Sys.time())
-fit <- glmer(formula = selfharm.yn ~ depression.yn +  PS +  BT + PS*BT  + Tel +
-               age + GENDER + RACE + yearm2016 + pandemic + pandemic*yearm2020 + 
-               mco + ADD_REGION + (1|BEN_ID)
+fit <- glmer(formula = selfharm.yn ~ BT3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
              , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
 summary(fit)
 (start.time <- Sys.time())
@@ -104,13 +110,23 @@ df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',roun
                                                                                         qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
                                                                                                                                                                  qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
 View(df)
+##From logistic.1-25 notes page 14:
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
 
 
-#suicidal ideation
+#suicidalideations.yn 
 (start.time <- Sys.time())
-fit <- glmer(formula = suicidalideations.yn ~ depression.yn +  PS +  BT + PS*BT  + Tel +
-               age + GENDER + RACE + yearm2016 + pandemic + pandemic*yearm2020 + 
-               mco + ADD_REGION + (1|BEN_ID)
+fit <- glmer(formula = suicidalideations.yn ~ BT3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
              , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
 summary(fit)
 (start.time <- Sys.time())
@@ -121,12 +137,21 @@ df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',roun
                                                                                         qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
                                                                                                                                                                  qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
 View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
 
-#Suicide attempt
+#suicideattempt.yn 
 (start.time <- Sys.time())
-fit <- glmer(formula = suicideattempt.yn ~ depression.yn +  PS +  BT + PS*BT  + Tel +
-               age + GENDER + RACE + yearm2016 + pandemic + pandemic*yearm2020 + 
-               mco + ADD_REGION + (1|BEN_ID)
+fit <- glmer(formula = suicideattempt.yn ~ BT3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
              , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
 summary(fit)
 (start.time <- Sys.time())
@@ -137,13 +162,178 @@ df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',roun
                                                                                         qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
                                                                                                                                                                  qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
 View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
+
+##Peer Support
+#######
+
+#selfharm.yn 
+(start.time <- Sys.time())
+fit <- glmer(formula = selfharm.yn ~ PS3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
+             , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
+summary(fit)
+(start.time <- Sys.time())
+round(exp(fixef(fit)), 2) #odds ratios
+round(exp(coef(summary(fit))[,1] - qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)  #CIs
+round(exp(coef(summary(fit))[,1] + qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)
+df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',round(exp(coef(summary(fit))[,1] - 
+                                                                                        qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
+                                                                                                                                                                 qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
+View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
+
+#suicidalideations.yn 
+(start.time <- Sys.time())
+fit <- glmer(formula = suicidalideations.yn ~ PS3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
+             , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
+summary(fit)
+(start.time <- Sys.time())
+round(exp(fixef(fit)), 2) #odds ratios
+round(exp(coef(summary(fit))[,1] - qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)  #CIs
+round(exp(coef(summary(fit))[,1] + qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)
+df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',round(exp(coef(summary(fit))[,1] - 
+                                                                                        qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
+                                                                                                                                                                 qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
+View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
+
+#suicideattempt.yn 
+(start.time <- Sys.time())
+fit <- glmer(formula = suicideattempt.yn ~ PS3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
+             , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
+summary(fit)
+(start.time <- Sys.time())
+round(exp(fixef(fit)), 2) #odds ratios
+round(exp(coef(summary(fit))[,1] - qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)  #CIs
+round(exp(coef(summary(fit))[,1] + qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)
+df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',round(exp(coef(summary(fit))[,1] - 
+                                                                                        qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
+                                                                                                                                                                 qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
+View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
+
+
+##TCM
+#######
+
+#selfharm.yn 
+(start.time <- Sys.time())
+fit <- glmer(formula = selfharm.yn ~ TCM3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
+             , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
+summary(fit)
+(start.time <- Sys.time())
+round(exp(fixef(fit)), 2) #odds ratios
+round(exp(coef(summary(fit))[,1] - qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)  #CIs
+round(exp(coef(summary(fit))[,1] + qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)
+df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',round(exp(coef(summary(fit))[,1] - 
+                                                                                        qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
+                                                                                                                                                                 qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
+View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
+
+#suicidalideations.yn
+(start.time <- Sys.time())
+fit <- glmer(formula = suicidalideations.yn ~ TCM3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
+             , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
+summary(fit)
+(start.time <- Sys.time())
+round(exp(fixef(fit)), 2) #odds ratios
+round(exp(coef(summary(fit))[,1] - qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)  #CIs
+round(exp(coef(summary(fit))[,1] + qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)
+df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',round(exp(coef(summary(fit))[,1] - 
+                                                                                        qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
+                                                                                                                                                                 qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
+View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
+
+#suicideattempt.yn
+(start.time <- Sys.time())
+fit <- glmer(formula = suicideattempt.yn ~ TCM3 + depression.yn + age + GENDER + RACE + 
+               yearm2016 + pandemic + pandemic*yearm2020 + mco3 +
+               Metro + (1|BEN_ID)
+             , data = data, family=binomial, nAGQ = 0) #nAGQ = 0 helps it run faster
+summary(fit)
+(start.time <- Sys.time())
+round(exp(fixef(fit)), 2) #odds ratios
+round(exp(coef(summary(fit))[,1] - qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)  #CIs
+round(exp(coef(summary(fit))[,1] + qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2)
+df <- data.frame(OR = round(exp(coef(summary(fit))[,1]),2), CI = paste0('(',round(exp(coef(summary(fit))[,1] - 
+                                                                                        qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),', ',round(exp(coef(summary(fit))[,1] + 
+                                                                                                                                                                 qnorm(.025, lower.tail = F)*coef(summary(fit))[,2]), 2),')'), p.val = round(coef(summary(fit))[,4],2))
+View(df)
+V <- vcov(fit)
+var.bfmbt <- diag(V)[3]+diag(V)[2] - 2*V[2,3]
+contrast.LB <- round(exp(fixef(fit)[3]-fixef(fit)[2] - qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.UB <- round(exp(fixef(fit)[3]-fixef(fit)[2] + qnorm(.025, lower.tail = F)*sqrt(var.bfmbt)), 2)
+contrast.df <- data.frame(Est = round(exp(fixef(fit)[3]-fixef(fit)[2]), 2), 
+                          contrast.CI = paste0('(',contrast.LB,  ', ',
+                                               contrast.UB,')'),
+                          p.val = round(pnorm(abs(fixef(fit)[3]-fixef(fit)[2])/sqrt(var.bfmbt), lower.tail=F), 2))
+View(contrast.df)
+
+
 
 ##########################################
 ## :Logistic regression models for service variables:  AUD only
 ##########################################
-library(lme4)
-data$mco3 <- ifelse(data$mco != 'UNKWN' & data$mco != 'V4BZZ', 'NAMED', 
-                    data$mco) 
 
 ##Behavior Therapy
 #######
